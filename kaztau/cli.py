@@ -89,8 +89,8 @@ def list_all() -> None:
     columns = (
         "ID.  ",
         "| Group ID  ",
-        "| Name  ",
         "| Verify  ",
+        "| Name  ",
     )
     headers = "".join(columns)
     typer.secho(headers, fg=typer.colors.BLUE, bold=True)
@@ -100,8 +100,8 @@ def list_all() -> None:
         typer.secho(
             f"{id}{(len(columns[0]) - len(str(id))) * ' '}"
             f"| ({group_id}){(len(columns[1]) - len(str(group_id)) - 4) * ' '}"
-            f"| {name}{(len(columns[2]) - len(str(name)) - 4) * ' '}"
-            f"| {verify}",
+            f"| {verify}{(len(columns[2]) - len(str(verify)) - 2) * ' '}"
+            f"| {name}",
             fg=typer.colors.BLUE,
         )
     typer.secho("-" * len(headers) + "\n", fg=typer.colors.BLUE)
