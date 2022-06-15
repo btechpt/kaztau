@@ -30,19 +30,19 @@ def mock_json_file(tmp_path):
 
 test_data1 = {
     "group_id": "gr-1",
-    "owner": "sumarno",
+    "name": "group ops",
     "group": {
         "group_id": "gr-1",
-        "owner": "sumarno",
+        "name": "group ops",
         "verify": False,
     },
 }
 test_data2 = {
     "group_id": "gr-2",
-    "owner": "sukijo",
+    "name": "group dev",
     "group": {
         "group_id": "gr-2",
-        "owner": "sukijo",
+        "name": "group dev",
         "verify": False,
     },
 }
@@ -53,12 +53,12 @@ test_data2 = {
     [
         pytest.param(
             test_data1["group_id"],
-            test_data1["owner"],
+            test_data1["name"],
             (test_data1["group"], SUCCESS),
         ),
         pytest.param(
             test_data2["group_id"],
-            test_data2["owner"],
+            test_data2["name"],
             (test_data2["group"], SUCCESS),
         ),
     ],
