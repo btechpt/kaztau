@@ -1,0 +1,29 @@
+import os
+from typing import Tuple
+from telethon.sync import TelegramClient
+from kaztau.exceptions import KaztauError
+
+TELEGRAM_API_ID = os.environ.get('KAZTAU_TELEGRAM_API_ID')
+TELEGRAM_API_HASH = os.environ.get('KAZTAU_TELEGRAM_API_HASH')
+TELEGRAM_BOT_TOKEN = os.environ.get('KAZTAU_TELEGRAM_BOT_TOKEN')
+
+
+def get_credential() -> Tuple[int, str, str]:
+    telegram_api_id = os.environ.get('KAZTAU_TELEGRAM_API_ID')
+    telegram_api_hash = os.environ.get('KAZTAU_TELEGRAM_API_HASH')
+    telegram_bot_token = os.environ.get('KAZTAU_TELEGRAM_BOT_TOKEN')
+    if not telegram_api_id:
+        raise KaztauError("Please set KAZTAU_TELEGRAM_API_ID in your environment")
+    if not telegram_api_hash:
+        raise KaztauError("Please set KAZTAU_TELEGRAM_API_HASH in your environment")
+    if not telegram_bot_token:
+        raise KaztauError("Please set KAZTAU_TELEGRAM_BOT_TOKEN in your environment")
+    return telegram_api_id, telegram_api_hash, telegram_bot_token
+
+
+def send_telegram_bot(user_entity: str, message: str = "Hi, this message from kaztau") -> None:
+    api_id, api_hash, bot_token = get_credential()
+    bot = TelegramClient('bot', api_id,
+                         api_hash).start(bot_token=bot_token)
+    with bot:
+        bot.send_message(user_entity, message)

@@ -1,0 +1,2 @@
+class KaztauError(Exception):
+    pass
