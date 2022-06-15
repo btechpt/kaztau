@@ -73,3 +73,16 @@ def test_add(mock_json_file, group_id, owner, expected):
 def test_group_list(mock_json_file):
     grouper = kaztau.Grouper(mock_json_file)
     assert len(grouper.get_group_list()) == 1
+
+
+def test_set_unset_verified(mock_json_file):
+    grouper = kaztau.Grouper(mock_json_file)
+    group = grouper.get_group_list()[0]
+    # default value is False
+    assert group['verify'] == False
+    # change value to True
+    group, _ = grouper.set_verified(data_id=1)
+    assert group['verify'] == True
+    # change again to False
+    group, _ = grouper.set_verified(data_id=1, status=False)
+
