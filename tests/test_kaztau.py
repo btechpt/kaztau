@@ -21,8 +21,8 @@ def test_version():
 
 @pytest.fixture
 def mock_json_file(tmp_path):
-    groups = [{"group_id": "gr-tele", "owner": "parman", "verify": False}]
-    db_file = tmp_path / "todo.json"
+    groups = [{"group_id": "gr-tele", "name": "telegram group", "verify": False}]
+    db_file = tmp_path / "groups.json"
     with db_file.open("w") as db:
         json.dump(groups, db, indent=4)
     return db_file
@@ -68,3 +68,8 @@ def test_add(mock_json_file, group_id, owner, expected):
     assert grouper.add(group_id, owner) == expected
     read = grouper._db_handler.read_groups()
     assert len(read.group_list) == 2
+
+
+def test_group_list(mock_json_file):
+    grouper = kaztau.Grouper(mock_json_file)
+    assert len(grouper.get_group_list()) == 1
