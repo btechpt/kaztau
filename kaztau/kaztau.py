@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, NamedTuple
 from pathlib import Path
 from kaztau.database import DatabaseHandler
-from kaztau import DB_READ_ERROR
+from kaztau import DB_READ_ERROR, ID_ERROR
 
 
 class CurrentGroup(NamedTuple):
@@ -31,3 +31,16 @@ class Grouper:
         """Return the current group list."""
         read = self._db_handler.read_groups()
         return read.group_list
+
+    def set_verified(self, data_id: int, status: bool = True) -> CurrentGroup:
+        """Set group as verify."""
+        read = self._db_handler.read_groups()
+        if read.error:
+            return CurrentGroup({}, read.error)
+        try:
+            group = read.group_list[data_id - 1]
+        except IndexError:
+            return CurrentGroup({}, ID_ERROR)
+        group["verify"] = status
+        write = self._db_handler.write_groups(read.group_list)
+        return CurrentGroup(group, write.error)

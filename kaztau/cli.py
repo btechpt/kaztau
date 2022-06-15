@@ -60,7 +60,7 @@ def add(
     group_id: str = typer.Argument(...),
     owner: str = typer.Option(2, "--name", "-n", min=1, max=3),
 ) -> None:
-    """Add a new group."""
+    """Add a new group chat."""
     grouper = get_grouper()
     group, error = grouper.add(group_id, owner)
     if error:
@@ -77,12 +77,12 @@ def add(
 
 @app.command(name="list")
 def list_all() -> None:
-    """List of groups"""
+    """List of chat groups."""
     grouper = get_grouper()
     group_list = grouper.get_group_list()
     if len(group_list) == 0:
         typer.secho(
-            "There are no tasks in the to-do list yet", fg=typer.colors.RED
+            "There are no groups chat.", fg=typer.colors.RED
         )
         raise typer.Exit()
     typer.secho("\nGroup list:\n", fg=typer.colors.BLUE, bold=True)
@@ -105,6 +105,42 @@ def list_all() -> None:
             fg=typer.colors.BLUE,
         )
     typer.secho("-" * len(headers) + "\n", fg=typer.colors.BLUE)
+
+
+@app.command(name="verified")
+def set_verified(data_id: int = typer.Argument(...)) -> None:
+    """Set verified."""
+    grouper = get_grouper()
+    group, error = grouper.set_verified(data_id)
+    if error:
+        typer.secho(
+            f'Data id # "{data_id}" failed with "{ERRORS[error]}"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    else:
+        typer.secho(
+            f"""# {data_id} "{group['name']}" is verified!""",
+            fg=typer.colors.GREEN,
+        )
+
+
+@app.command(name="unverified")
+def set_unverified(data_id: int = typer.Argument(...)) -> None:
+    """Set to unverified."""
+    grouper = get_grouper()
+    group, error = grouper.set_verified(data_id, status=False)
+    if error:
+        typer.secho(
+            f'Data id # "{data_id}" failed with "{ERRORS[error]}"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    else:
+        typer.secho(
+            f"""# {data_id} "{group['name']}" is unverified!""",
+            fg=typer.colors.GREEN,
+        )
 
 
 def _version_callback(value: bool) -> None:
