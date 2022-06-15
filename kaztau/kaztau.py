@@ -27,6 +27,16 @@ class Grouper:
         write = self._db_handler.write_groups(read.group_list)
         return CurrentGroup(group, write.error)
 
+    def get_group(self, data_id: int) -> CurrentGroup:
+        read = self._db_handler.read_groups()
+        if read.error:
+            return CurrentGroup({}, read.error)
+        try:
+            group = read.group_list[data_id - 1]
+        except IndexError:
+            return CurrentGroup({}, ID_ERROR)
+        return CurrentGroup(group, read.error)
+
     def get_group_list(self) -> List[Dict[str, Any]]:
         """Return the current group list."""
         read = self._db_handler.read_groups()
