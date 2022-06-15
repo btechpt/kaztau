@@ -5,6 +5,7 @@ from pathlib import Path
 from kaztau import (
     ERRORS, __app_name__, __version__, config, database, kaztau
 )
+from kaztau.notifications import Notification
 app = typer.Typer()
 
 
@@ -139,6 +140,29 @@ def set_unverified(data_id: int = typer.Argument(...)) -> None:
     else:
         typer.secho(
             f"""# {data_id} "{group['name']}" is unverified!""",
+            fg=typer.colors.GREEN,
+        )
+
+
+@app.command(name="send_message")
+def send_message(
+        data_id: int = typer.Argument(...),
+        message: str = typer.Option(2, "--message", "-m", min=1)
+) -> None:
+    """To send message."""
+    grouper = get_grouper()
+    group, error = grouper.get_group(data_id)
+    if error:
+        typer.secho(
+            f'Data id # "{data_id}" failed open or not found: "{ERRORS[error]}"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    else:
+        notif = Notification()
+        notif.send(group['group_id'], message)
+        typer.secho(
+            f"""# success send message to "{group['name']}" """,
             fg=typer.colors.GREEN,
         )
 

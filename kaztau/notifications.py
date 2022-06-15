@@ -1,10 +1,11 @@
 from typing import List, Dict, Any
+from kaztau.telegram import bot_send_message
 
 
 class Notification:
 
     def send(self, contact: str, message: str) -> None:
-        pass
+        bot_send_message(contact, message)
 
     def send_image(self, contact: str, path_img: str, message: str) -> None:
         pass

@@ -1,6 +1,6 @@
 import os
 from typing import Tuple
-from telethon.sync import TelegramClient
+from telethon import TelegramClient
 from kaztau.exceptions import KaztauError
 
 TELEGRAM_API_ID = os.environ.get('KAZTAU_TELEGRAM_API_ID')
@@ -21,9 +21,20 @@ def get_credential() -> Tuple[int, str, str]:
     return telegram_api_id, telegram_api_hash, telegram_bot_token
 
 
-def send_telegram_bot(user_entity: str, message: str = "Hi, this message from kaztau") -> None:
+def bot_send_message(user_entity: str, message: str = "Hi, this message from kaztau") -> None:
+    api_id, api_hash, bot_token = get_credential()
+    bot = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+    with bot:
+        bot.loop.run_until_complete(bot.send_message(user_entity, message))
+
+
+def check_valid_contact(user_entity: str):
     api_id, api_hash, bot_token = get_credential()
     bot = TelegramClient('bot', api_id,
                          api_hash).start(bot_token=bot_token)
     with bot:
-        bot.send_message(user_entity, message)
+        try:
+            bot.get_entity(user_entity)
+            return True
+        except ValueError:
+            return False
