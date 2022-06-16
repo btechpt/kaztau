@@ -41,7 +41,7 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
   kaztau remove 1
   ```
 
-#### Sending
+#### Send Message
 - Send message to group run command 
   ```shell
   kaztau send_message {data_id} --message "{your_message}"
@@ -70,9 +70,9 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
   ```shell
   kaztau send_multi_image 1 --path-folder "/Users/Userexam/Pictures/dir_images"
   ```
-- Move image to another directory after success `send_image` or `send_multi_image`. You can add argument `--move-path {move_path}`.
+- Move image to another directory after success `send_image` or `send_multi_image`. 
   
-  Example on `send_image`
+  You can add argument `--move-path {move_path}`. Example on `send_image`
   ```shell
   kaztau send_image 1 --path-file "/Users/Userexam/Pictures/image_report.png" --move-folder "/Users/Userexam/Pictures/success"
   ```

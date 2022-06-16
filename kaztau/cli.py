@@ -292,7 +292,7 @@ def send_multi_image(
         if move_folder:
             for image in images:
                 move_file(move_folder, image)
-                typer.secho(f"""Success move images to "{move_folder}" """, fg=typer.colors.GREEN)
+            typer.secho(f"""Success move images to "{move_folder}" """, fg=typer.colors.GREEN)
 
 
 def _version_callback(value: bool) -> None:
