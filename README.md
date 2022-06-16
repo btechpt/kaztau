@@ -14,6 +14,7 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
 ```
 
 ### How to use
+#### Management data group chat
 - Add data group run command `kaztau add {group_id} --name "{group_name}"`. Example:
   ```shell
   kaztau add groupexample --name "Group Example" 
@@ -31,19 +32,37 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
   1    | (groupexample)| False   | Group Example
   -----------------------------------
   ```
-- Send message to group run command `kaztau send_message {data_id} --message "{your_message}"`. Example:
-  ```shell
-  kaztau send_message 1 --message "Test send message from kaztau"
-  ```
-- Send image to group run command `kaztau send_image {data_id} --path-file "{path_file}"`
-  ```shell
-  kaztau send_image 1 --path-file "/Users/userexam/Pictures/image_report.png"
-  ```
-- Send multi image to group run command `kaztau send_image {data_id} --path-file "{path_file_1}" --path-file "{path_file_2}"`
-  ```shell
-  kaztau send_multi_image 1 --path-file "/Users/userexam/Pictures/image_report_1.png" --path-file "/Users/userexam/Pictures/image_report_2.png"
-  ```
 - Remove group, run command `kaztau remove {data_id}`. Example
   ```shell
   kaztau remove 1
+  ```
+
+#### Sending
+- Send message to group run command 
+  ```shell
+  kaztau send_message {data_id} --message "{your_message}"
+  ````
+  Example:
+  ```shell
+  kaztau send_message 1 --message "Test send message from kaztau"
+  ```
+- Send image to group run command 
+  ```shell
+  kaztau send_image {data_id} --path-file "{path_file}"
+  ```
+  Example:
+  ```shell
+  kaztau send_image 1 --path-file "/Users/Userexam/Pictures/image_report.png"
+  ```
+- Send multi image to group run command 
+  ```shell
+  kaztau send_image {data_id} --path-file "{path_file_1}" --path-file "{path_file_2}"
+  ```
+  Example:
+  ```shell
+  kaztau send_multi_image 1 --path-file "/Users/Userexam/Pictures/image_report_1.png" --path-file "/Users/userexam/Pictures/image_report_2.png"
+  ```
+  Alternative argument you can use `--path-folder` to send all image in the folder
+  ```shell
+  kaztau send_multi_image 1 --path-folder "/Users/Userexam/Pictures/dir_images"
   ```
