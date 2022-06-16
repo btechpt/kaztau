@@ -49,7 +49,7 @@ test_data2 = {
 
 
 @pytest.mark.parametrize(
-    "group_id, owner, expected",
+    "group_id, name, expected",
     [
         pytest.param(
             test_data1["group_id"],
@@ -63,9 +63,9 @@ test_data2 = {
         ),
     ],
 )
-def test_add(mock_json_file, group_id, owner, expected):
+def test_add(mock_json_file, group_id, name, expected):
     grouper = kaztau.Grouper(mock_json_file)
-    assert grouper.add(group_id, owner) == expected
+    assert grouper.add(group_id, name) == expected
     read = grouper._db_handler.read_groups()
     assert len(read.group_list) == 2
 
@@ -73,6 +73,13 @@ def test_add(mock_json_file, group_id, owner, expected):
 def test_group_list(mock_json_file):
     grouper = kaztau.Grouper(mock_json_file)
     assert len(grouper.get_group_list()) == 1
+
+
+def test_get_group(mock_json_file):
+    grouper = kaztau.Grouper(mock_json_file)
+    group, _ = grouper.get_group(data_id=1)
+    assert group['group_id'] == "gr-tele"
+    assert group['name'] == "telegram group"
 
 
 def test_set_unset_verified(mock_json_file):
