@@ -2,7 +2,7 @@
 
 Kaztau is a simple cli app to send message telegram. Just call command on shell or execute via cron for create reminder notification.
 
-### Instalation
+### Installation
 ```shell
 pip install ....
 ```
@@ -15,7 +15,11 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
 
 ### How to use
 #### Management data group chat
-- Add data group run command `kaztau add {group_id} --name "{group_name}"`. Example:
+- Add data group run command 
+  ```shell
+  kaztau add {group_id} --name "{group_name}"
+  ```
+  Example:
   ```shell
   kaztau add groupexample --name "Group Example" 
   ```
