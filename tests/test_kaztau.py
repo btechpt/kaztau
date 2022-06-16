@@ -93,3 +93,9 @@ def test_set_unset_verified(mock_json_file):
     # change again to False
     group, _ = grouper.set_verified(data_id=1, status=False)
 
+
+def test_remove_group(mock_json_file):
+    grouper = kaztau.Grouper(mock_json_file)
+    _, _ = grouper.remove(data_id=1)
+    # after delete data is 0
+    assert len(grouper.get_group_list()) == 0
