@@ -212,12 +212,12 @@ def send_message(
         )
 
 
-@app.command(name="send_file")
-def send_file(
+@app.command(name="send_image")
+def send_image(
         data_id: int = typer.Argument(...),
         path_file: str = typer.Option(2, "--pathfile", "-pf", min=1)
 ) -> None:
-    """To send file."""
+    """To send image."""
     grouper = get_grouper()
     group, error = grouper.get_group(data_id)
     if error:
@@ -228,7 +228,7 @@ def send_file(
         raise typer.Exit(1)
     else:
         notif = Notification()
-        notif.send_file(group['group_id'], path_file)
+        notif.send_image(group['group_id'], path_file)
         typer.secho(
             f"""# success send file to "{group['name']}" """,
             fg=typer.colors.GREEN,
