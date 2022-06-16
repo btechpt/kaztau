@@ -6,6 +6,8 @@ from kaztau import (
     ERRORS, __app_name__, __version__, config, database, kaztau
 )
 from kaztau.notifications import Notification
+from kaztau.utils import get_all_path_file_from_folder
+
 app = typer.Typer()
 
 
@@ -238,7 +240,8 @@ def send_image(
 @app.command(name="send_multi_image")
 def send_multi_image(
         data_id: int = typer.Argument(...),
-        path_file: Optional[List[str]] = typer.Option(None)
+        path_file: Optional[List[str]] = typer.Option(None),
+        path_folder: Optional[str] = typer.Option(None)
 ) -> None:
     """To send multi image."""
     grouper = get_grouper()
@@ -250,8 +253,12 @@ def send_multi_image(
         )
         raise typer.Exit(1)
     else:
+        if path_folder:
+            images = get_all_path_file_from_folder(path_folder)
+        else:
+            images = path_file
         notif = Notification()
-        notif.send_multi_image(group['group_id'], path_file)
+        notif.send_multi_image(group['group_id'], images)
         typer.secho(
             f"""# success send file to "{group['name']}" """,
             fg=typer.colors.GREEN,
