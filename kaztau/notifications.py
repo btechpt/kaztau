@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from kaztau.telegram import bot_send_message
+from kaztau.telegram import bot_send_message, bot_send_file
 
 
 class Notification:
@@ -7,8 +7,8 @@ class Notification:
     def send(self, contact: str, message: str) -> None:
         bot_send_message(contact, message)
 
-    def send_image(self, contact: str, path_img: str, message: str) -> None:
-        pass
+    def send_file(self, contact: str, path_file: str) -> None:
+        bot_send_file(contact, path_file)
 
     def send_many_image(self, contact: str, path_img: [str], message: str) -> None:
         pass

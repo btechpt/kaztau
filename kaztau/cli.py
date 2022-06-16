@@ -144,29 +144,6 @@ def set_unverified(data_id: int = typer.Argument(...)) -> None:
         )
 
 
-@app.command(name="send_message")
-def send_message(
-        data_id: int = typer.Argument(...),
-        message: str = typer.Option(2, "--message", "-m", min=1)
-) -> None:
-    """To send message."""
-    grouper = get_grouper()
-    group, error = grouper.get_group(data_id)
-    if error:
-        typer.secho(
-            f'Data id # "{data_id}" failed open or not found: "{ERRORS[error]}"',
-            fg=typer.colors.RED,
-        )
-        raise typer.Exit(1)
-    else:
-        notif = Notification()
-        notif.send(group['group_id'], message)
-        typer.secho(
-            f"""# success send message to "{group['name']}" """,
-            fg=typer.colors.GREEN,
-        )
-
-
 @app.command()
 def remove(
     data_id: int = typer.Argument(...),
@@ -210,6 +187,52 @@ def remove(
             _remove()
         else:
             typer.echo("Operation canceled")
+
+
+@app.command(name="send_message")
+def send_message(
+        data_id: int = typer.Argument(...),
+        message: str = typer.Option(2, "--message", "-m", min=1)
+) -> None:
+    """To send message."""
+    grouper = get_grouper()
+    group, error = grouper.get_group(data_id)
+    if error:
+        typer.secho(
+            f'Data id # "{data_id}" failed open or not found: "{ERRORS[error]}"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    else:
+        notif = Notification()
+        notif.send(group['group_id'], message)
+        typer.secho(
+            f"""# success send message to "{group['name']}" """,
+            fg=typer.colors.GREEN,
+        )
+
+
+@app.command(name="send_file")
+def send_file(
+        data_id: int = typer.Argument(...),
+        path_file: str = typer.Option(2, "--pathfile", "-pf", min=1)
+) -> None:
+    """To send file."""
+    grouper = get_grouper()
+    group, error = grouper.get_group(data_id)
+    if error:
+        typer.secho(
+            f'Data id # "{data_id}" failed open or not found: "{ERRORS[error]}"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    else:
+        notif = Notification()
+        notif.send_file(group['group_id'], path_file)
+        typer.secho(
+            f"""# success send file to "{group['name']}" """,
+            fg=typer.colors.GREEN,
+        )
 
 
 def _version_callback(value: bool) -> None:

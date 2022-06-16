@@ -35,6 +35,10 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
   ```shell
   kaztau send_message 1 --message "Test send message from kaztau"
   ```
+- Send file or image to group run command `kaztau send_file {data_id} --pathfile "{path_file}"`
+  ```shell
+  kaztau send_file 1 --pathfile "/Users/userexam/Pictures/image_report.png"
+  ```
 - Remove group, run command `kaztau remove {data_id}`. Example
   ```shell
   kaztau remove 1

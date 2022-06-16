@@ -28,6 +28,13 @@ def bot_send_message(user_entity: str, message: str = "Hi, this message from kaz
         bot.loop.run_until_complete(bot.send_message(user_entity, message))
 
 
+def bot_send_file(user_entity: str, path_file: str) -> None:
+    api_id, api_hash, bot_token = get_credential()
+    bot = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+    with bot:
+        bot.loop.run_until_complete(bot.send_file(user_entity, path_file))
+
+
 def check_valid_contact(user_entity: str):
     api_id, api_hash, bot_token = get_credential()
     bot = TelegramClient('bot', api_id,
