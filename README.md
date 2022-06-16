@@ -70,3 +70,17 @@ export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
   ```shell
   kaztau send_multi_image 1 --path-folder "/Users/Userexam/Pictures/dir_images"
   ```
+- Move image to another directory after success `send_image` or `send_multi_image`. You can add argument `--move-path {move_path}`.
+  
+  Example on `send_image`
+  ```shell
+  kaztau send_image 1 --path-file "/Users/Userexam/Pictures/image_report.png" --move-folder "/Users/Userexam/Pictures/success"
+  ```
+  Example on `send_multi_image`
+  ```shell
+  kaztau send_multi_image 1 --path-file "/Users/Userexam/Pictures/image_report_1.png" --path-file "/Users/userexam/Pictures/image_report_2.png" --move-folder "/Users/Userexam/Pictures/success"
+  ```
+  or 
+  ```shell
+  kaztau send_multi_image 1 --path-folder "/Users/Userexam/Pictures/dir_images" --move-folder "/Users/Userexam/Pictures/success"
+  ```

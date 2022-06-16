@@ -1,4 +1,5 @@
 import typer
+import os
 
 from typing import List, Optional
 from pathlib import Path
@@ -6,7 +7,7 @@ from kaztau import (
     ERRORS, __app_name__, __version__, config, database, kaztau
 )
 from kaztau.notifications import Notification
-from kaztau.utils import get_all_path_file_from_folder
+from kaztau.utils import get_all_path_file_from_folder, checking_dir, move_file
 
 app = typer.Typer()
 
@@ -193,8 +194,8 @@ def remove(
 
 @app.command(name="send_message")
 def send_message(
-        data_id: int = typer.Argument(...),
-        message: str = typer.Option(2, "--message", "-m", min=1)
+    data_id: int = typer.Argument(...),
+    message: str = typer.Option(2, "--message", "-m", min=1)
 ) -> None:
     """To send message."""
     grouper = get_grouper()
@@ -216,8 +217,9 @@ def send_message(
 
 @app.command(name="send_image")
 def send_image(
-        data_id: int = typer.Argument(...),
-        path_file: str = typer.Option(None)
+    data_id: int = typer.Argument(...),
+    path_file: str = typer.Option(None),
+    move_folder: Optional[str] = typer.Option(None)
 ) -> None:
     """To send image."""
     grouper = get_grouper()
@@ -229,19 +231,27 @@ def send_image(
         )
         raise typer.Exit(1)
     else:
+        if move_folder and not checking_dir(move_folder):
+            typer.secho(f"Directory move not found: {move_folder}", fg=typer.colors.RED)
+            raise typer.Exit(1)
+
         notif = Notification()
+        typer.secho("Sending .... !", fg=typer.colors.BLUE)
         notif.send_image(group['group_id'], path_file)
-        typer.secho(
-            f"""# success send file to "{group['name']}" """,
-            fg=typer.colors.GREEN,
-        )
+
+        typer.secho(f"""Success send file to "{group['name']}" """, fg=typer.colors.GREEN)
+
+        if move_folder:
+            move_file(move_folder, path_file)
+            typer.secho(f"""Success move image to "{move_folder}" """, fg=typer.colors.GREEN)
 
 
 @app.command(name="send_multi_image")
 def send_multi_image(
-        data_id: int = typer.Argument(...),
-        path_file: Optional[List[str]] = typer.Option(None),
-        path_folder: Optional[str] = typer.Option(None)
+    data_id: int = typer.Argument(...),
+    path_file: Optional[List[str]] = typer.Option(None),
+    path_folder: Optional[str] = typer.Option(None),
+    move_folder: Optional[str] = typer.Option(None)
 ) -> None:
     """To send multi image."""
     grouper = get_grouper()
@@ -254,15 +264,35 @@ def send_multi_image(
         raise typer.Exit(1)
     else:
         if path_folder:
+            if not checking_dir(path_folder):
+                typer.secho(f"Directory image not found: {path_folder}", fg=typer.colors.RED)
+                raise typer.Exit(1)
             images = get_all_path_file_from_folder(path_folder)
         else:
+            for path in path_file:
+                if not checking_dir(path):
+                    typer.secho(f"file not found: {path}", fg=typer.colors.RED)
+                    raise typer.Exit(1)
             images = path_file
+
+        if not images:
+            typer.secho(f"No images in directory: {path_folder}", fg=typer.colors.RED)
+            raise typer.Exit(1)
+
+        if move_folder and not checking_dir(move_folder):
+            typer.secho(f"Directory move not found: {move_folder}", fg=typer.colors.RED)
+            raise typer.Exit(1)
+
         notif = Notification()
+        typer.secho("Sending .... !", fg=typer.colors.BLUE)
         notif.send_multi_image(group['group_id'], images)
-        typer.secho(
-            f"""# success send file to "{group['name']}" """,
-            fg=typer.colors.GREEN,
-        )
+
+        typer.secho(f"""Success send file to "{group['name']}" """, fg=typer.colors.GREEN)
+
+        if move_folder:
+            for image in images:
+                move_file(move_folder, image)
+                typer.secho(f"""Success move images to "{move_folder}" """, fg=typer.colors.GREEN)
 
 
 def _version_callback(value: bool) -> None:
