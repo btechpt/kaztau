@@ -167,6 +167,51 @@ def send_message(
         )
 
 
+@app.command()
+def remove(
+    data_id: int = typer.Argument(...),
+    force: bool = typer.Option(
+        False,
+        "--force",
+        "-f",
+        help="Force deletion without confirmation.",
+    ),
+) -> None:
+    """Remove a group using its data id."""
+    grouper = get_grouper()
+
+    def _remove():
+        group, error = grouper.remove(data_id)
+        if error:
+            typer.secho(
+                f'Removing group # {group["group_id"]} failed with "{ERRORS[error]}"',
+                fg=typer.colors.RED,
+            )
+            raise typer.Exit(1)
+        else:
+            typer.secho(
+                f"""group # {group['group_id']}: {group['name']} was removed""",
+                fg=typer.colors.GREEN,
+            )
+
+    if force:
+        _remove()
+    else:
+        group_list = grouper.get_group_list()
+        try:
+            group = group_list[data_id - 1]
+        except IndexError:
+            typer.secho("Invalid data id", fg=typer.colors.RED)
+            raise typer.Exit(1)
+        delete = typer.confirm(
+            f"Delete group # {group['group_id']}: {group['name']}?"
+        )
+        if delete:
+            _remove()
+        else:
+            typer.echo("Operation canceled")
+
+
 def _version_callback(value: bool) -> None:
     if value:
         typer.echo(f"{__app_name__} v{__version__}")

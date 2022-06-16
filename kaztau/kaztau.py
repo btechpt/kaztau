@@ -28,6 +28,7 @@ class Grouper:
         return CurrentGroup(group, write.error)
 
     def get_group(self, data_id: int) -> CurrentGroup:
+        """Get data group using data id or index."""
         read = self._db_handler.read_groups()
         if read.error:
             return CurrentGroup({}, read.error)
@@ -43,7 +44,7 @@ class Grouper:
         return read.group_list
 
     def set_verified(self, data_id: int, status: bool = True) -> CurrentGroup:
-        """Set group as verify."""
+        """Set group as verify using data id or index."""
         read = self._db_handler.read_groups()
         if read.error:
             return CurrentGroup({}, read.error)
@@ -52,5 +53,17 @@ class Grouper:
         except IndexError:
             return CurrentGroup({}, ID_ERROR)
         group["verify"] = status
+        write = self._db_handler.write_groups(read.group_list)
+        return CurrentGroup(group, write.error)
+
+    def remove(self, data_id: int) -> CurrentGroup:
+        """Remove a group from the database using data id or index."""
+        read = self._db_handler.read_groups()
+        if read.error:
+            return CurrentGroup({}, read.error)
+        try:
+            group = read.group_list.pop(data_id - 1)
+        except IndexError:
+            return CurrentGroup({}, ID_ERROR)
         write = self._db_handler.write_groups(read.group_list)
         return CurrentGroup(group, write.error)
