@@ -215,7 +215,7 @@ def send_message(
 @app.command(name="send_image")
 def send_image(
         data_id: int = typer.Argument(...),
-        path_file: str = typer.Option(2, "--pathfile", "-pf", min=1)
+        path_file: str = typer.Option(None)
 ) -> None:
     """To send image."""
     grouper = get_grouper()
@@ -229,6 +229,29 @@ def send_image(
     else:
         notif = Notification()
         notif.send_image(group['group_id'], path_file)
+        typer.secho(
+            f"""# success send file to "{group['name']}" """,
+            fg=typer.colors.GREEN,
+        )
+
+
+@app.command(name="send_multi_image")
+def send_multi_image(
+        data_id: int = typer.Argument(...),
+        path_file: Optional[List[str]] = typer.Option(None)
+) -> None:
+    """To send multi image."""
+    grouper = get_grouper()
+    group, error = grouper.get_group(data_id)
+    if error:
+        typer.secho(
+            f'Data id # "{data_id}" failed open or not found: "{ERRORS[error]}"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    else:
+        notif = Notification()
+        notif.send_multi_image(group['group_id'], path_file)
         typer.secho(
             f"""# success send file to "{group['name']}" """,
             fg=typer.colors.GREEN,
