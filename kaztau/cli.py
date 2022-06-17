@@ -208,8 +208,9 @@ def send_message(
         )
         raise typer.Exit(1)
     else:
-        notif = Notification()
         try:
+            notif = Notification()
+            typer.secho("Sending .... !", fg=typer.colors.BLUE)
             notif.send(group['group_id'], message)
         except KaztauError as e:
             typer.secho(e, fg=typer.colors.RED)
@@ -240,9 +241,9 @@ def send_image(
             typer.secho(f"Directory move not found: {move_folder}", fg=typer.colors.RED)
             raise typer.Exit(1)
 
-        notif = Notification()
-        typer.secho("Sending .... !", fg=typer.colors.BLUE)
         try:
+            notif = Notification()
+            typer.secho("Sending .... !", fg=typer.colors.BLUE)
             notif.send_image(group['group_id'], path_file)
         except KaztauError as e:
             typer.secho(e, fg=typer.colors.RED)
@@ -292,9 +293,9 @@ def send_multi_image(
             typer.secho(f"Directory move not found: {move_folder}", fg=typer.colors.RED)
             raise typer.Exit(1)
 
-        notif = Notification()
-        typer.secho("Sending .... !", fg=typer.colors.BLUE)
         try:
+            notif = Notification()
+            typer.secho("Sending .... !", fg=typer.colors.BLUE)
             notif.send_multi_image(group['group_id'], images)
         except KaztauError as e:
             typer.secho(e, fg=typer.colors.RED)
