@@ -2,6 +2,9 @@
 
 __app_name__ = "kaztau"
 __version__ = "0.1.0"
+__website_url__ = "https://github.com/btechpt/kaztau"
+__author__ = "Boer Technology"
+__title__ = "Kaztau"
 
 (
     SUCCESS,

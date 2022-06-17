@@ -1,5 +1,4 @@
 import typer
-import os
 
 from typing import List, Optional
 from pathlib import Path
