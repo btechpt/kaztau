@@ -7,6 +7,8 @@ from kaztau import (
 )
 from kaztau.notifications import Notification
 from kaztau.utils import get_all_path_file_from_folder, checking_dir, move_file
+from kaztau.exceptions import KaztauError
+
 
 app = typer.Typer()
 
@@ -207,7 +209,11 @@ def send_message(
         raise typer.Exit(1)
     else:
         notif = Notification()
-        notif.send(group['group_id'], message)
+        try:
+            notif.send(group['group_id'], message)
+        except KaztauError as e:
+            typer.secho(e, fg=typer.colors.RED)
+            raise typer.Exit(1)
         typer.secho(
             f"""# success send message to "{group['name']}" """,
             fg=typer.colors.GREEN,
@@ -236,7 +242,11 @@ def send_image(
 
         notif = Notification()
         typer.secho("Sending .... !", fg=typer.colors.BLUE)
-        notif.send_image(group['group_id'], path_file)
+        try:
+            notif.send_image(group['group_id'], path_file)
+        except KaztauError as e:
+            typer.secho(e, fg=typer.colors.RED)
+            raise typer.Exit(1)
 
         typer.secho(f"""Success send file to "{group['name']}" """, fg=typer.colors.GREEN)
 
@@ -284,7 +294,11 @@ def send_multi_image(
 
         notif = Notification()
         typer.secho("Sending .... !", fg=typer.colors.BLUE)
-        notif.send_multi_image(group['group_id'], images)
+        try:
+            notif.send_multi_image(group['group_id'], images)
+        except KaztauError as e:
+            typer.secho(e, fg=typer.colors.RED)
+            raise typer.Exit(1)
 
         typer.secho(f"""Success send file to "{group['name']}" """, fg=typer.colors.GREEN)
 
