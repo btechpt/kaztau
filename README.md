@@ -4,7 +4,7 @@ Kaztau is a simple cli app to send message telegram. Just call command on shell 
 
 ### Installation
 ```shell
-pip install ....
+pip install kaztau
 ```
 export your telegram credential
 ```shell
