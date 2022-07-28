@@ -40,7 +40,7 @@ def send_wa_image(
     message: str = typer.Argument(...),
     img_path: str = typer.Argument(...),
     to_group: bool = typer.Option(False, "--togroup"),
-    move_folder: str = typer.Option("", "--movefolder")
+    move_folder: str = typer.Option("")
 ) -> None:
     """To send wa image."""
     if move_folder and not checking_dir(move_folder):
