@@ -3,10 +3,6 @@ from typing import Tuple
 from telethon import TelegramClient
 from kaztau.exceptions import KaztauError
 
-TELEGRAM_API_ID = os.environ.get('KAZTAU_TELEGRAM_API_ID')
-TELEGRAM_API_HASH = os.environ.get('KAZTAU_TELEGRAM_API_HASH')
-TELEGRAM_BOT_TOKEN = os.environ.get('KAZTAU_TELEGRAM_BOT_TOKEN')
-
 
 def get_credential() -> Tuple[int, str, str]:
     telegram_api_id = os.environ.get('KAZTAU_TELEGRAM_API_ID')
