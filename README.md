@@ -13,6 +13,12 @@ export KAZTAU_TELEGRAM_API_HASH='11aaa22bb'
 export KAZTAU_TELEGRAM_BOT_TOKEN='22bb33cc'
 ```
 
+export your whatsapp device_id
+```shell
+export WA_DEVICE_ID="a012asdf09123"
+```
+on this package author use whatsapp api from [whacenter.com](https://whacenter.com/)
+
 ### How to use
 
 #### Send Whatsapp Message
