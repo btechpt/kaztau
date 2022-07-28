@@ -8,6 +8,7 @@ from kaztau import (
 from kaztau.notifications import Notification
 from kaztau.utils import get_all_path_file_from_folder, checking_dir, move_file
 from kaztau.exceptions import KaztauError
+from kaztau import whatsapp
 
 
 app = typer.Typer()
@@ -307,6 +308,25 @@ def send_multi_image(
             for image in images:
                 move_file(move_folder, image)
             typer.secho(f"""Success move images to "{move_folder}" """, fg=typer.colors.GREEN)
+
+
+@app.command(name="send_wa_message")
+def send_wa_message(
+    number: str = typer.Argument(...),
+    message: str = typer.Option(2, "--message", "-m", min=1)
+) -> None:
+    """To send wa message."""
+    try:
+        typer.secho("Sending .... !", fg=typer.colors.BLUE)
+        whatsapp.wa_send_message(identifier=number, message=message)
+    except KaztauError as e:
+        typer.secho(e, fg=typer.colors.RED)
+        raise typer.Exit(1)
+
+    typer.secho(
+        f"""# success send message to "{number}" """,
+        fg=typer.colors.GREEN,
+    )
 
 
 def _version_callback(value: bool) -> None:
