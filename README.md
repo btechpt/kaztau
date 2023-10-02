@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="assets/image/kaztau-logo-white.png" width="300">
+<img src="assets/images/kaztau-logo-white.png" width="300">
 </h1><br>
 
 Kaztau is a simple cli app to send message whatsapp or telegram. Just call command on shell or execute via cron for create reminder notification.
